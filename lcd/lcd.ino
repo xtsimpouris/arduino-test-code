@@ -18,6 +18,11 @@ void setup() {
 }
 
 unsigned int get_fps() {
+  /*
+  Created by Xaris Tsimpouris
+  https://github.com/xtsimpouris/arduino-test-code
+  http://1024.gr
+  */
   static long unsigned int last_millis = 0, cur_millis;
   static unsigned int last_fps = 0;
   static unsigned int current_fps = 0;
@@ -34,6 +39,11 @@ unsigned int get_fps() {
 }
 
 void set_lcd_light(int light_status) {
+  /*
+  Created by Xaris Tsimpouris
+  https://github.com/xtsimpouris/arduino-test-code
+  http://1024.gr
+  */
   /*
     light_status
       0 -> OFF

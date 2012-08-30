@@ -54,6 +54,7 @@ void set_lcd_light(int light_status) {
   */
   #define SCREEN_TOGGLE_DELAY  300
   #define SCREEN_STAY_ON_SECS  20
+  #define SCREEN_PIN_LIGHT     10
   static long last_check = 0;
   static long screen_delay_toggle = 0;
   static int lcd_bright = 0;
@@ -66,7 +67,7 @@ void set_lcd_light(int light_status) {
   switch(light_status) {
     case 1:
       if (last_light_status != 1)
-        digitalWrite(11, HIGH);
+        digitalWrite(SCREEN_PIN_LIGHT, HIGH);
       last_light_status = light_status;
       break;
     
@@ -90,7 +91,7 @@ void set_lcd_light(int light_status) {
       if (last_light_status != 3) {
         last_check = millis();
         screen_delay_toggle = SCREEN_STAY_ON_SECS * 1000;
-        digitalWrite(11, HIGH);
+        digitalWrite(SCREEN_PIN_LIGHT, HIGH);
       }
       last_light_status = light_status;
       screen_delay_toggle = screen_delay_toggle - (millis() - last_check);
@@ -105,7 +106,7 @@ void set_lcd_light(int light_status) {
     case 0:
     default:
       if (last_light_status != 0)
-        digitalWrite(11, LOW);
+        digitalWrite(SCREEN_PIN_LIGHT, LOW);
       last_light_status = light_status;
   }
 }
@@ -120,9 +121,9 @@ void loop() {
   sec = sec % 60;
   
   light = analogRead(A0);
-  if (light > max_light && light < 1000) max_light = light;  // oria lathous i bgike to kalwdio
-  if (light < min_light && light > 5   ) min_light = light;  // oria lathous i bgike to kalwdio
-  set_lcd_light(light <= ((max_light - min_light) / 2  + min_light) ? 3 : -1);
+  if (light > max_light) max_light = light;  // oria lathous i bgike to kalwdio
+  if (light < min_light) min_light = light;  // oria lathous i bgike to kalwdio
+  set_lcd_light(light <= ((max_light - min_light) / 3  + min_light) ? 3 : -1);
   
   lcd.setCursor(3, 1);
   lcd.print(min_light);
